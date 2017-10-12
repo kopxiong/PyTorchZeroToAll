@@ -6,7 +6,6 @@ import torch.nn.functional as F
 x_data = Variable(torch.Tensor([[1.0], [2.0], [3.0], [4.0]]))
 y_data = Variable(torch.Tensor([[0.], [0.], [1.], [1.]]))
 
-
 class Model(torch.nn.Module):
 
     def __init__(self):
@@ -28,7 +27,6 @@ class Model(torch.nn.Module):
 # our model
 model = Model()
 
-
 # Construct our loss function and an Optimizer. The call to model.parameters()
 # in the SGD constructor will contain the learnable parameters of the two
 # nn.Linear modules which are members of the model.
@@ -48,7 +46,6 @@ for epoch in range(500):
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
-
 
 # After training
 hour_var = Variable(torch.Tensor([[0.5]]))

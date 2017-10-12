@@ -5,12 +5,11 @@ from torch.autograd import Variable
 x_data = Variable(torch.Tensor([[1.0], [2.0], [3.0]]))
 y_data = Variable(torch.Tensor([[2.0], [4.0], [6.0]]))
 
-
 class Model(torch.nn.Module):
 
     def __init__(self):
         """
-        In the constructor we instantiate two nn.Linear module
+        In the constructor we instantiate one nn.Linear module
         """
         super(Model, self).__init__()
         self.linear = torch.nn.Linear(1, 1)  # One in and one out
@@ -24,19 +23,25 @@ class Model(torch.nn.Module):
         y_pred = self.linear(x)
         return y_pred
 
-# our model
+# 1.Design our model using class
 model = Model()
 
+# 2.Construct our loss function and an Optimizer. (select from PyTorch API)
+    """
+    The call to model.parameters()
+    in the SGD constructor will contain the learnable parameters of the two
+    nn.Linear modules which are members of the model.
 
-# Construct our loss function and an Optimizer. The call to model.parameters()
-# in the SGD constructor will contain the learnable parameters of the two
-# nn.Linear modules which are members of the model.
-criterion = torch.nn.MSELoss(size_average=False)
+    size_average(bool, optional) – By default, the losses are averaged over
+    observations for each minibatch. However, if the field size_average is set to False,
+    the losses are instead summed for each minibatch. Default: True
+    """
+criterion = torch.nn.MSELoss(size_average=False)    # summed for each minibatch
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
-# Training loop
+# 3.Training loop (forward, backward, update)
 for epoch in range(500):
-        # Forward pass: Compute predicted y by passing x to the model
+    # Forward pass: Compute predicted y by passing x to the model
     y_pred = model(x_data)
 
     # Compute and print loss
@@ -47,7 +52,6 @@ for epoch in range(500):
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
-
 
 # After training
 hour_var = Variable(torch.Tensor([[4.0]]))

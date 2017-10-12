@@ -7,14 +7,10 @@ y_data = [2.0, 4.0, 6.0]
 w = Variable(torch.Tensor([1.0]),  requires_grad=True)  # Any random value
 
 # our model forward pass
-
-
 def forward(x):
     return x * w
 
 # Loss function
-
-
 def loss(x, y):
     y_pred = forward(x)
     return (y_pred - y) * (y_pred - y)
@@ -26,6 +22,7 @@ print("predict (before training)",  4, forward(4).data[0])
 for epoch in range(10):
     for x_val, y_val in zip(x_data, y_data):
         l = loss(x_val, y_val)
+        # l: autograd.Variable.backward()
         l.backward()
         print("\tgrad: ", x_val, y_val, w.grad.data[0])
         w.data = w.data - 0.01 * w.grad.data

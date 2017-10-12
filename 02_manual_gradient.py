@@ -3,17 +3,14 @@ y_data = [2.0, 4.0, 6.0]
 
 w = 1.0  # any random value
 
-
 # our model forward pass
 def forward(x):
     return x * w
-
 
 # Loss function
 def loss(x, y):
     y_pred = forward(x)
     return (y_pred - y) * (y_pred - y)
-
 
 # compute gradient
 def gradient(x, y):  # d_loss/d_w
