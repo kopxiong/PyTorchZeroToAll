@@ -10,10 +10,11 @@ class Model(torch.nn.Module):
 
     def __init__(self):
         """
-        In the constructor we instantiate two nn.Linear module
+        In the constructor we instantiate two nn.Linear modules (linear and sigmoid)
         """
         super(Model, self).__init__()
         self.linear = torch.nn.Linear(1, 1)  # One in and one out
+        #self.sigmoid = torch.nn.Sigmoid()
 
     def forward(self, x):
         """
@@ -31,7 +32,7 @@ model = Model()
 # in the SGD constructor will contain the learnable parameters of the two
 # nn.Linear modules which are members of the model.
 criterion = torch.nn.BCELoss(size_average=True)
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)    # lr=0.01
 
 # Training loop
 for epoch in range(500):
@@ -50,5 +51,7 @@ for epoch in range(500):
 # After training
 hour_var = Variable(torch.Tensor([[0.5]]))
 print("predict (after training)", 0.5, model.forward(hour_var).data[0][0])
+hour_var = Variable(torch.Tensor([[3.5]]))
+print("predict (after training)", 3.5, model.forward(hour_var).data[0][0])
 hour_var = Variable(torch.Tensor([[7.0]]))
 print("predict (after training)", 7.0, model.forward(hour_var).data[0][0])

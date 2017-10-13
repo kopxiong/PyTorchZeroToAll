@@ -52,7 +52,7 @@ class Net(nn.Module):
 
 model = Net()
 
-optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
+optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
 
 def train(epoch):
@@ -79,7 +79,9 @@ def test():
         output = model(data)
         # sum up batch loss
         test_loss += F.nll_loss(output, target, size_average=False).data[0]
+
         # get the index of the max log-probability
+        print(output.data.max(1, keepdim=True))
         pred = output.data.max(1, keepdim=True)[1]
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 

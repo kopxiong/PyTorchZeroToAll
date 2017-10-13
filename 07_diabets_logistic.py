@@ -7,20 +7,23 @@ xy = np.loadtxt('data-diabetes.csv', delimiter=',', dtype=np.float32)
 x_data = Variable(torch.from_numpy(xy[:, 0:-1]))
 y_data = Variable(torch.from_numpy(xy[:, [-1]]))
 
-print(x_data.data.shape)
-print(y_data.data.shape)
+#print(x_data.data.shape)
+#print(y_data.data.shape)
+
+print(x_data.data.size())
+print(y_data.data.size())
 
 
 class Model(torch.nn.Module):
 
     def __init__(self):
         """
-        In the constructor we instantiate two nn.Linear module
+        In the constructor we instantiate three nn.Linear modules
         """
         super(Model, self).__init__()
-        self.l1 = torch.nn.Linear(8, 6)
-        self.l2 = torch.nn.Linear(6, 4)
-        self.l3 = torch.nn.Linear(4, 1)
+        self.l1 = torch.nn.Linear(8, 6)    #(8, 6)
+        self.l2 = torch.nn.Linear(6, 4)    #(6, 4)
+        self.l3 = torch.nn.Linear(4, 1)    #(4, 1)
 
         self.sigmoid = torch.nn.Sigmoid()
 
@@ -43,11 +46,11 @@ model = Model()
 # in the SGD constructor will contain the learnable parameters of the two
 # nn.Linear modules which are members of the model.
 criterion = torch.nn.BCELoss(size_average=True)
-optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)    # lr=0.1
 
 # Training loop
-for epoch in range(100):
-        # Forward pass: Compute predicted y by passing x to the model
+for epoch in range(500):
+    # Forward pass: Compute predicted y by passing x to the model
     y_pred = model(x_data)
 
     # Compute and print loss
