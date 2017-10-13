@@ -81,8 +81,7 @@ def test():
         test_loss += F.nll_loss(output, target, size_average=False).data[0]
 
         # get the index of the max log-probability
-        print(output.data.max(1, keepdim=True))
-        pred = output.data.max(1, keepdim=True)[1]
+        pred = output.data.max(1, keepdim=True)[1]    # keepdim only for new version
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
     test_loss /= len(test_loader.dataset)
