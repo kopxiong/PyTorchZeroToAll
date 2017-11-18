@@ -11,12 +11,12 @@ from torch.autograd import Variable
 batch_size = 64
 
 # MNIST Dataset
-train_dataset = datasets.MNIST(root='./data/',
+train_dataset = datasets.MNIST(root='./mnist_data/',
                                train=True,
                                transform=transforms.ToTensor(),
                                download=True)
 
-test_dataset = datasets.MNIST(root='./data/',
+test_dataset = datasets.MNIST(root='./mnist_data/',
                               train=False,
                               transform=transforms.ToTensor())
 
@@ -46,13 +46,17 @@ class Net(nn.Module):
         x = F.relu(self.l2(x))
         x = F.relu(self.l3(x))
         x = F.relu(self.l4(x))
-        x = F.relu(self.l5(x))
-        return F.log_softmax(x)
+        return self.l5(x)
 
 
 model = Net()
 
+<<<<<<< HEAD
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+=======
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
+>>>>>>> 59c86cc42b305807789291564501a667689fb812
 
 
 def train(epoch):
@@ -61,7 +65,7 @@ def train(epoch):
         data, target = Variable(data), Variable(target)
         optimizer.zero_grad()
         output = model(data)
-        loss = F.nll_loss(output, target)
+        loss = criterion(output, target)
         loss.backward()
         optimizer.step()
         if batch_idx % 10 == 0:
@@ -78,10 +82,16 @@ def test():
         data, target = Variable(data, volatile=True), Variable(target)
         output = model(data)
         # sum up batch loss
+<<<<<<< HEAD
         test_loss += F.nll_loss(output, target, size_average=False).data[0]
 
         # get the index of the max log-probability
         pred = output.data.max(1, keepdim=True)[1]    # keepdim only for new version
+=======
+        test_loss += criterion(output, target).data[0]
+        # get the index of the max
+        pred = output.data.max(1, keepdim=True)[1]
+>>>>>>> 59c86cc42b305807789291564501a667689fb812
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
     test_loss /= len(test_loader.dataset)
