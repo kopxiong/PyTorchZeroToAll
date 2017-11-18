@@ -1,3 +1,4 @@
+
 import torch
 from torch.autograd import Variable
 import numpy as np
@@ -6,8 +7,11 @@ xy = np.loadtxt('data-diabetes.csv', delimiter=',', dtype=np.float32)
 x_data = Variable(torch.from_numpy(xy[:, 0:-1]))
 y_data = Variable(torch.from_numpy(xy[:, [-1]]))
 
-#print(x_data.data.size())
-#print(y_data.data.size())
+#print(x_data.data.shape)
+#print(y_data.data.shape)
+
+print(x_data.data.size())
+print(y_data.data.size())
 
 
 class Model(torch.nn.Module):
@@ -42,7 +46,8 @@ model = Model()
 # in the SGD constructor will contain the learnable parameters of the two
 # nn.Linear modules which are members of the model.
 criterion = torch.nn.BCELoss(size_average=True)
-optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)    # lr=0.1
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01, betas=(0.5, 0.99))
+#optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)    # lr=0.1
 
 # Training loop
 for epoch in range(5000):
@@ -58,4 +63,4 @@ for epoch in range(5000):
     loss.backward()
     optimizer.step()
 
-print("y_pred & y_data: ", y_pred, y_data)
+print("y_pred & y_data: ", y_pred)
